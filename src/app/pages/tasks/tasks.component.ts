@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { TasksService } from '../../services/tasks.service';
+import { Component, OnInit } from '@angular/core';
+import { TasksApiService } from '../../services/tasks-api';
+import { Task } from '../../models/task.model';
 
 @Component({
   selector: 'app-tasks',
@@ -7,12 +8,27 @@ import { TasksService } from '../../services/tasks.service';
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
 })
-export class TasksComponent {
-  constructor(public tasksService: TasksService) {}
+export class TasksComponent implements OnInit {
+  tasks: Task[] = [];
+  error = '';
 
-  remove(id: number) {
-    this.tasksService.remove(id);
+  constructor(private api: TasksApiService) {}
+
+  ngOnInit(): void {
+    this.load();
   }
 
-  
+  load() {
+    this.api.list().subscribe({
+      next: tasks => (this.tasks = tasks),
+      error: () => (this.error = 'Error al cargar tareas'),
+    });
+  }
+
+  remove(id: number) {
+    this.api.remove(id).subscribe({
+      next: () => this.load(),
+      error: () => (this.error = 'Error al eliminar la tarea'),
+    });
+  }
 }

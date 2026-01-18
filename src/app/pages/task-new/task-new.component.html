@@ -1,6 +1,10 @@
 <section class="card">
   <h2>Nueva tarea</h2>
 
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
   <form [formGroup]="form" (ngSubmit)="save()">
     <label>
       Título
@@ -12,7 +16,7 @@
         El título es obligatorio y debe tener al menos 3 caracteres.
       </div>
     }
-
+    
     <label>
       Descripción (opcional)
       <input class="input" formControlName="descripcion" />
