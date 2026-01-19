@@ -1,0 +1,13 @@
+<h2>Login</h2>
+
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+  <label>Usuario</label>
+  <input name="username" [(ngModel)]="username" required />
+
+  <label>Contraseña</label>
+  <input type="password" name="password" [(ngModel)]="password" required />
+
+  <button type="submit" [disabled]="f.invalid">Entrar</button>
+
+  <p *ngIf="error">{{ error }}</p>
+</form>
