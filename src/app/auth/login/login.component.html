@@ -1,13 +1,22 @@
-<h2>Login</h2>
+<section class="card">
+  <h2>Nueva tarea</h2>
 
-<form (ngSubmit)="onSubmit()" #f="ngForm">
-  <label>Usuario</label>
-  <input name="username" [(ngModel)]="username" required />
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
 
-  <label>Contraseña</label>
-  <input type="password" name="password" [(ngModel)]="password" required />
+  <form [formGroup]="form" (ngSubmit)="save()">
 
-  <button type="submit" [disabled]="f.invalid">Entrar</button>
+    <label>Usuario</label>
+    <input type="text" formControlName="username" />
 
-  <p *ngIf="error">{{ error }}</p>
-</form>
+    <label>Contraseña</label>
+    <input type="password" formControlName="password" />
+
+    <button type="submit" [disabled]="form.invalid || loading">
+      Entrar
+    </button>
+
+    <p *ngIf="error">{{ error }}</p>
+  </form>
+</section>
